@@ -89,7 +89,15 @@ function getRGB(rgb) {
     var r = Math.round(rgb[0] * 255, 0);
     var g = Math.round(rgb[1] * 255, 0);
     var b = Math.round(rgb[2] * 255, 0);
-    return (r.toString(16) + g.toString(16) + b.toString(16)).toUpperCase();
+    function _padZeros(number) {
+        var padding = '00' + number;
+        return padding.substr(padding.length - 2);
+    }
+    return (
+        _padZeros(r.toString(16)) + 
+        _padZeros(g.toString(16)) +
+        _padZeros(b.toString(16))
+    ).toUpperCase();
 }
 
 function _parseColor(color, percentage) {
@@ -124,9 +132,12 @@ function rgbFromString(colorString) {
         green = _parseColor(colors[1].trim(), colors[1].indexOf('%') > 0);
         blue = _parseColor(colors[2].trim(), colors[2].indexOf('%') > 0);
     } else if (/^#?[0-9a-f]{6}([0-9a-f]{2})?$/.test(colorString)){
+        if (colorString.charAt(0) == '#') {
+            colorString = colorString.substr(1);
+        }
         red = parseInt(colorString.substr(0, 2), 16) / 255.0;
         green = parseInt(colorString.substr(2, 2), 16) / 255.0;
-        blue = parseInt(colorString.substr(4, 2)) / 255.0;
+        blue = parseInt(colorString.substr(4, 2), 16) / 255.0;
     } else {
         return null;
     }
@@ -135,3 +146,42 @@ function rgbFromString(colorString) {
     }
     return [red, green, blue]; 
 }
+
+function _getHSLFromRGBString(rgbString) {
+    var rgb = rgbFromString(rgbString);
+    if (rgb == null) {
+        return null;
+    }
+    var hsl = rgb2hsl(rgb);
+    if (hsl === null) {
+        return null;
+    }
+
+    return hsl;
+}
+
+function displaceHSL(rgbString, variations) {
+    var hsl = _getHSLFromRGBString(rgbString);
+    if (hsl === null) {
+        return null;
+    }
+   
+    /* rotate our H around the variation */
+    hsl[0] += variations[0];
+    if (hsl[0] < 0) {
+        hsl[0] += 1;
+    } else if (hsl[0] > 1) {
+        hsl[0] -= 1;
+    }
+
+    /* adjust our saturation */
+    hsl[1] += variations[1];
+    hsl[1] = Math.min(Math.max(hsl[1], 0), 1);
+
+    /* adjust our lightness */
+    hsl[2] += variations[2];
+    hsl[2] = Math.min(Math.max(hsl[2], 0), 1);
+
+    return getRGB(hsl2rgb(hsl));
+}
+

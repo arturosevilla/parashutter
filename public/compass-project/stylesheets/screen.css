@@ -1,0 +1,22 @@
+/* line 2, ../sass/screen.sass */
+.carousel-caption {
+  background: none;
+}
+
+/* line 4, ../sass/screen.sass */
+.s_maincontent {
+  margin: 41px 0 0 0;
+  padding: 0;
+}
+/* line 7, ../sass/screen.sass */
+.s_maincontent #what {
+  background-color: #18a9c3;
+}
+/* line 9, ../sass/screen.sass */
+.s_maincontent #how {
+  background-color: #c3b518;
+}
+/* line 11, ../sass/screen.sass */
+.s_maincontent #why {
+  background-color: #dc460b;
+}

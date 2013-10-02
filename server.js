@@ -13,11 +13,12 @@ log.new({
 
 var server = express();
 
-//server.get('/', function(request, response){
-//    response.writeHead(200, {'Content-Type': 'text/plain'});
-//    response.write('test');
-//    response.end();
-//}); // home faq doc
+var shutter_USERNAME = 'mintitmediahack';
+var shutter_KEY = '817307111f1911a022d3f53f2e7bc78ceda0259b';
+var shutter_DOMAIN = 'http://api.shutterstock.com';
+
+function shutterRequest(request, query, callback) {
+}
 
 /* our main handler */
 server.use(express.static(__dirname + '/public'));

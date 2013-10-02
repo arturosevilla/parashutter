@@ -73,24 +73,24 @@ server.get('/image/:id', function(request, response) {
 });
 
 server.get(
-    /^\/(\d+)x(\d+)\/(any|[0-9A-Fa-f]{6})\/((\S+,)*\S+)?$/,
+    /^\/(\d+)x(\d+)\/(any|([0-9A-Fa-f]{6})(,[0-9A-Fa-f]{6}){1,3})\/((\S+,)*\S+)?$/,
     function(request, response) {
         var params   = request.params,
             width    = params[0],
             height   = params[1],
-            color    = params[2],
-            keywords = params[3];
+            colors   = params[2],
+            keywords = params[5];
     
         log.debug('Request for image size ' + width + 'x' + height +
-                  ', color ' + color + ', keywords = ' +
+                  ', colors ' + colors + ', keywords = ' +
                   (keywords === undefined ? '(no keywords)' : keywords));
 
         query = {};
-        if (color !== 'any') {
-            query.color = color;
+        if (colors !== 'any') {
+            query.color = colors.split(',')[0];
         }
         if (keywords !== undefined && keywords.length > 0) {
-            query.keywords = keywords;
+            query.searchterm = keywords;
         }
         if (width >= height) {
             query.orientation = 'horizontal';

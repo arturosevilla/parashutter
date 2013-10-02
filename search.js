@@ -59,7 +59,7 @@ function shutterRequest(query, callback) {
     shutterAPICall(options, function(response) {
         response = JSON.parse(response);
         var searchResponse = {
-            count: fullResponse.count,
+            count: response.count,
             results: []
         };
         response.results.forEach(function(imageData) {

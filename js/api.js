@@ -116,11 +116,6 @@ goog.provide('parashutter.api');
         '</div>' +
         '</div>';
 
-    var galleryHTML = "";
-    for (var i = 0; i < images.length; i++) {
-        galleryHTML+= "<img style=\"height: 150px\" src=\"" + images[i].preview + "\" alt=\"" + images[i].photo_id + "\">"; 
-    };
-
     function installImageSelector(img, color) {
         if (img.element.tagName.toLowerCase() === 'img') {
             // replace by a div element
@@ -138,25 +133,28 @@ goog.provide('parashutter.api');
         img.element.innerHTML = menuHTML;
 
         function getHSLVariations(element) {
-            var h = window.jQuery('.slider-hue', element).slider('value');
-            var s = window.jQuery('.slider-saturation', element). val().slider('value');
-            var l = window.jQuery('.slider-lightness', element).val().slider('value');
+            var h = window.jQuery('.slider-hue', element).slider('option', 'value');
+            var s = window.jQuery('.slider-saturation', element).slider('option', 'value');
+            var l = window.jQuery('.slider-lightness', element).slider('option', 'value');
             return [h, s, l];
         }
 
         img.element.doSearch = function() {
-            var width  = this.width,
-                height = this.height;
+            var width  = img.width,
+                height = img.height;
+            window.console.debug(this);
             var colors = []
             var hslVariations = getHSLVariations(this);
-            var colorsTexts = window.jQuery('.para-pallete-item para-on', img.element).each(function() {
-                var displacedColor = window.parashutter.displaceHSL($(this).text());
+            var colorsTexts = window.jQuery('.para-on', img.element).each(function() {
+                window.console.debug($(this).text());
+                var displacedColor = window.parashutter.displaceHSL($(this).text(), hslVariations);
                 colors.push(displacedColor);
-                window.jQuery('.para-pallete-item-color', parent).css(
+                window.jQuery('.para-pallete-item-color', this.parentNode).css(
                     'background-color',
                     displacedColor
                 );
             });
+            window.console.debug(colors);
             var keywords = window.jQuery('.para-input', img.element).val();
 
             window.parashutter.searchForImages(width, height, colors, keywords, function(images) {
@@ -193,15 +191,34 @@ goog.provide('parashutter.api');
 
         // setup sliders
         var variations = window.parashutter.getSelectedVariations(img.element.id);
-        window.jQuery('.slider-hue', img.element).slider(
-            'option', 'value', variations[0]
-        );
-        window.jQuery('.slider-saturation', img.element).slider(
-            'option', 'value', variations[1]
-        );
-        window.jQuery('.slider-lightness', img.element).slider(
-            'option', 'value', variations[2]
-        );
+        window.console.debug(variations);
+        window.jQuery('.slider-hue', img.element).slider({
+            max: 1,
+            min: -1,
+            step: 0.1,
+            value: variations[0]
+        }).on('slidechange', function() {
+            window.console.debug('Hue changed');
+            this.parentNode.parentNode.parentNode.parentNode.parentNode.doSearch();
+        });
+        window.jQuery('.slider-saturation', img.element).slider({
+            max: 1,
+            min: -1,
+            step: 0.1,
+            value: variations[1]
+        }).on('slidechange', function() {
+            window.console.debug('Saturation changed');
+            this.parentNode.parentNode.parentNode.parentNode.parentNode.doSearch();
+        });
+        window.jQuery('.slider-lightness', img.element).slider({
+            max: 1,
+            min: -1,
+            step: 0.1,
+            value: variations[2]
+        }).on('slidechange', function() {
+            window.console.debug('Lightness changed');
+            this.parentNode.parentNode.parentNode.parentNode.parentNode.doSearch();
+        });
     }
 
     function installEventHandlers() {
@@ -220,9 +237,6 @@ goog.provide('parashutter.api');
                     function() {
                         /* remove gif animation */
                         window.jQuery('.para-loading').addClass('nodisplay');
-                    }
-                    function(){
-                        window.jQuery('#para-fancybox-container').innerHTML = galleryHTML;
                     }
                 );
             });
@@ -290,22 +304,13 @@ goog.provide('parashutter.api');
                 window.parashutter.loadImage(searchCache.element, queue[searchCache.index], true);
             }
 
-            function searchHandler(e) {
-                this.parentNode.parentNode.doSearch();
-            }
-
+            window.console.log('slider setup');
             window.jQuery('.para-next').click(nextHandler);
             window.jQuery('.para-prev').click(prevHandler);
-            window.jQuery('.slider-hue').slider(
-                {min: -1, max: 1}
-            ).change(searchHandler);
-            window.jQuery('.slider-saturation').slider(
-                {min: -1, max: 1}
-            ).change(searchHandler);
-            window.jQuery('.slider-lightness').slider(
-                {min: -1, max: 1}
-            ).change(searchHandler);
-            window.jQuery('.para-input').change(searchHandler);
+            window.jQuery('.para-input').on('input', function() {
+                window.console.debug('Keywords changed');
+                this.parentNode.parentNode.doSearch();
+            });
         });
     }
 
@@ -362,9 +367,9 @@ goog.provide('parashutter.api');
     }
 
     function loadJQuery(head) {
-        var withJQuery = !!window.jQuery;
+        /*var withJQuery = !!window.jQuery;
         var withJQueryUI = !!window.jQuery.fn.slider;
-        if (!withJQueryUI) {
+        if (!withJQueryUI) {*/
             var cssUINode = document.createElement('link');
             cssUINode.setAttribute('rel', 'stylesheet');
             cssUINode.setAttribute('type', 'text/css');
@@ -373,7 +378,7 @@ goog.provide('parashutter.api');
                 'http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css'
             );
             head.appendChild(cssUINode);
-        }
+        /*}
 
         if (!withJQuery) {
             var jqueryNode = document.createElement('script');
@@ -385,7 +390,7 @@ goog.provide('parashutter.api');
             head.appendChild(jqueryNode);
         }
 
-        if (!withJQueryUI) {
+        if (!withJQueryUI) {*/
             var jqueryUINode = document.createElement('script');
             jqueryUINode.setAttribute(
                 'src',
@@ -393,7 +398,7 @@ goog.provide('parashutter.api');
             );
             jqueryUINode.setAttribute('type', 'text/javascript');
             head.appendChild(jqueryUINode);
-        }
+        //}
     }
 
     function loadRequiredFiles() {

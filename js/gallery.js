@@ -28,6 +28,7 @@ goog.provide('parashutter.gallery');
 
         var fancyClose = document.createElement('a');
         fancyClose.setAttribute('id', 'para-fancybox-close');
+        fancyClose.innerHTML = "x";
 
         fancyBoxContent.appendChild(fancyClose);
         fancyBoxContainer.appendChild(fancyBoxContent);

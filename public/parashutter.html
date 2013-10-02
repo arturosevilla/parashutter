@@ -82,13 +82,13 @@
 			$(".para-on, .para-off").click(colorHandler);
 		}
 		function toggle_loading(){
-			$(".loading").click(function (e){
+			$(".para-loading").click(function (e){
 				e.preventDefault();
 				if( $(this).attr('class').indexOf('nodisplay') == -1 ){
-					$(this).addClass("nodisplay");
+					$(this).addClass("para-nodisplay");
 				}
 				else{
-					$(this).removeClass("nodisplay");
+					$(this).removeClass("para-nodisplay");
 				}
 			});
 
@@ -185,7 +185,7 @@
 				</div>
 			</div>
 		</div>
-		<img src="compass-project/images/loading.gif" class="loading" />
+		<img src="compass-project/images/loading.gif" class="para-loading" />
 	</div>
 </body>
 </html>

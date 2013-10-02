@@ -1,12 +1,63 @@
+@import "compass/css3/box-shadow"
+@import "compass/css3/text-shadow"
+@import "compass/css3/border-radius"
+
 body
+	font-family: 'Oxygen', sans-serif
+a
+	cursor: pointer
+.carousel
+	margin-bottom: 0
+.carousel-inner
+	.carousel1
+		background: url('../images/egypt.jpg') no-repeat 0 0
+	.carousel2
+		background: url('../images/liberty.jpg') no-repeat 0 0
+	.carousel3
+		background: url('../images/mirror.jpg') no-repeat 0 0
+	.carousel4
+		background: url('../images/technogerman.jpg') no-repeat 0 0
+	.item
+		height: 450px
+		background-size: cover
+		p
+			margin: 0 auto
+			font-size: 40px
+			color: #FFFFFF
+			padding: 200px 0
+			@include text-shadow(#000 2px 2px 10px)
+			text-align: center
+			width: 80%
+.carousel-control
+	top: 50%
 .carousel-caption
 	background: none
 .s_maincontent
 	margin: 41px 0 0 0
 	padding: 0
-	#what
+	#nav_what
 		background-color: #18a9c3
-	#how
+	#nav_how
 		background-color: #c3b518
-	#why
+	#nav_why
 		background-color: #dc460b
+	#nav_contactus
+		background-color: #35c10a
+.goto_top
+	background: #FFF
+	cursor: pointer
+	padding: 0 15px 25px
+	@include border-radius(5px 5px 0 0)
+	@include box-shadow(2px -2px 10px rgba(0, 0, 0, .5))
+	position: fixed
+	bottom: 0
+	right: 20px
+	z-index: 1000
+	.arrow-up 
+		width: 0
+		height: 0
+		border-left: 10px solid transparent
+		border-right: 10px solid transparent
+		border-bottom: 10px solid black
+.content_block
+	padding: 40px 20px

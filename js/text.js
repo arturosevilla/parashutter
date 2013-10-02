@@ -581,7 +581,8 @@ goog.provide('parashutter.text');
         if (element.hasChildNodes()) {
             var children = element.childNodes;
             var newWords = null;
-            children.forEach(function(child) {
+            for (var i = 0; i < children.length; i++) {
+                var child = children[i];
                 if (child.nodeName.toLowerCase() === 'img') {
                     var alt = child.getAttribute('alt') || '';
                     if (alt.length > 0) {
@@ -597,7 +598,7 @@ goog.provide('parashutter.text');
                     // element node
                     newWords = getCorpusFromElement(child);
                 }
-            });
+            }
 
             if (newWords !== null && newWords.length > 0) {
                 corpus.push.apply(corpus, newWords);
@@ -611,7 +612,8 @@ goog.provide('parashutter.text');
         var KEYWORD_BIAS = 10;
         var metaTags = document.getElementsByTagName('meta');
         var corpus = [];
-        metaTags.forEach(function(element) {
+        for (var i = 0; i < metaTags.length; i++) {
+            var element = metaTags[i];
             var name = element.getAttribute('name');
             if (name === 'keywords' || name === 'description') {
                 var keywordsContent = element.getAttribute('content');
@@ -624,7 +626,7 @@ goog.provide('parashutter.text');
                     }
                 });
             }
-        });
+        }
 
         return corpus;
     }
@@ -647,7 +649,7 @@ goog.provide('parashutter.text');
             topN = 5;
         }
         if (!getCorpus) {
-            getCorpus = getCorpusFromDocument;
+            getCorpus = getCorpusFromKeywords;
         }
         var allWords = getCorpus();
         

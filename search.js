@@ -23,6 +23,12 @@ function getQueryString(query) {
         }
     }
 
+    if (query.hasOwnProperty('orientation')) {
+        params.push('orientation=' + query.orientation);
+    } else {
+        params.push('orientation=horizontal');
+    }
+
     return params.join('&');
 }
 

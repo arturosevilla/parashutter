@@ -116,7 +116,7 @@
 		<!-- HOW -->
 
 		<div class="row-fluid  content_block" id="nav_how">
-			<div class="span4 offset1">
+			<div class="span5 ">
 				<div id="how-floater">
 					<h1 class="brown">Try it here</h1>
 					<img
@@ -125,7 +125,7 @@
                                             class="parashutter-img" />
 				</div>
 			</div>
-			<div class="span6">
+			<div class="span6"
 				<h1 class="brown">How is it used?</h1>
 				<h2 class="brown">The code</h2>
 				<p>
@@ -135,13 +135,14 @@
 					<li>
 						<span class="brown">Step 1:</span> Copy the following script into your &lt;head> tag:
 						<div class="code-block">
-							&lt;script blah blah blah>&lt;/script>
+							&lt;script src="http://www.parashutter.com/js/api.min.js">&lt;/script>
+							<br/>&lt;script> $(function(){ parashutter.analyze();  });&lt;/script>
 						</div>
 					</li>
 					<li>
-						<span class="brown">Step 2:</span> Instead of using images use divs, and give them the class="image_holder":
+						<span class="brown">Step 2:</span> Instead of using images use divs, and give them the class="parashutter-img":
 						<div class="code-block">
-							&lt;div class="image_holder">&lt;/div>
+							&lt;div class="parashutter-img">&lt;/div>
 						</div>
 					</li>
 				</ul>

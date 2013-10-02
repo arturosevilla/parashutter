@@ -207,3 +207,8 @@ a {
 .w180 {
   width: 180px;
 }
+
+/* line 112, ../sass/screen.sass */
+#how-floater {
+  margin-left: 30px;
+}

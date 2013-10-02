@@ -11,6 +11,9 @@
 	<script>
 		$(window).load(function(){
 			para_gallery();
+			toggle_like();
+			toggle_colors();
+			open_gallery();
 		});
 		$(function() {
 			$( "#slider" ).slider();
@@ -30,6 +33,52 @@
 		        }, 400);
 		        $('#para-fancybox').css("height", "1px")
 		    });
+		}
+		// *************** Content *********************
+		function like(){
+			$(".para-love").click(function (e){
+				e.preventDefault();
+				var clase = $(this).attr('class')    
+		        if( $(this).attr('class').indexOf('para-love') !== -1 ){
+		           	//parashutter.like(gallery_id, img_id);  
+		            $(this).removeClass('para-love').addClass('para-hate')  
+
+		        }
+		 	});
+		}
+		function likeHandler(e){
+			e.preventDefault();
+			var clase = $(this).attr('class') 
+			if( $(this).attr('class').indexOf('para-love') !== -1 ){
+		        //parashutter.like(gallery_id, img_id);  
+		        $(this).removeClass('para-love').addClass('para-hate')  
+		    }
+		    else{
+		    	//parashutter.unlike(gallery_id, img_id); 
+		     	$(this).removeClass('para-hate').addClass('para-love') 
+		    }
+		}
+		function toggle_like(){
+			$(".para-hate , .para-love").click(likeHandler);
+		}
+		function open_gallery(){
+			$(".para-gallery").click(function (e){
+				e.preventDefault();
+				//parashutter.getLikedImages(gallery_id, function(images){});
+			});
+		}
+		function colorHandler(e){
+			e.preventDefault();
+			var clase = $(this).attr('class') 
+			if( $(this).attr('class').indexOf('para-on') !== -1 ){ 
+		        $(this).removeClass('para-on').addClass('para-off')  
+		    }
+		    else{ 
+		     	$(this).removeClass('para-off').addClass('para-on') 
+		    }
+		}
+		function toggle_colors(){
+			$(".para-on, .para-off").click(colorHandler);
 		}
   	</script>
 

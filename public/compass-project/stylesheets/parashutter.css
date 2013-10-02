@@ -116,7 +116,7 @@
   display: inline-block;
   vertical-align: top;
   width: 98px;
-  height: 235px;
+  height: 245px;
 }
 /* line 74, ../sass/parashutter.sass */
 .para-image-replacement .para-bar .para-settings .para-settings_panel .para-controls {
@@ -132,8 +132,8 @@
   -moz-box-shadow: inset 10px 0 40px #dadada;
   box-shadow: inset 10px 0 40px #dadada;
   vertical-align: top;
-  width: 250px;
-  height: 235px;
+  width: 198px;
+  height: 245px;
 }
 /* line 85, ../sass/parashutter.sass */
 .para-image-replacement .para-bar .para-settings:hover .para-settings_panel {

@@ -11,6 +11,7 @@ goog.provide('parashutter.api');
 (function(window, undefined) {
     var document = window.document;
     var console = window.console;
+    var searchCaches = {};
 
     function findImages() {
         var elements = document.getElementsByClassName('parashutter-img');
@@ -42,7 +43,7 @@ goog.provide('parashutter.api');
                     continue;
                 }
 
-                element.searchCache = {
+                searchCaches[element.id] = {
                     element: element,
                     width: width,
                     height: height,
@@ -51,7 +52,7 @@ goog.provide('parashutter.api');
                     canSearch: true
                 };
 
-                images.push(element.searchCache);
+                images.push(searchCaches[element.id]);
             }
         }
         return images;
@@ -139,17 +140,17 @@ goog.provide('parashutter.api');
             return [h, s, l];
         }
 
-        img.element.doSearch = function() {
+        img.element.doSearch = function(callback) {
             var width  = img.width,
                 height = img.height;
-            window.console.debug(this);
+            window.console.debug(img);
             var colors = []
             var hslVariations = getHSLVariations(this);
             var colorsTexts = window.jQuery('.para-on', img.element).each(function() {
                 window.console.debug($(this).text());
                 var displacedColor = window.parashutter.displaceHSL($(this).text(), hslVariations);
                 colors.push(displacedColor);
-                window.jQuery('.para-pallete-item-color', this.parentNode).css(
+                window.jQuery('.para-pallete-item-color', this).css(
                     'background-color',
                     displacedColor
                 );
@@ -164,6 +165,7 @@ goog.provide('parashutter.api');
                 for (var x in images) {
                     img.resultsQueue.push(images[x]);
                 }
+                callback(img.resultsQueue);
             });
         };
 
@@ -199,6 +201,10 @@ goog.provide('parashutter.api');
             value: variations[0]
         }).on('slidechange', function() {
             window.console.debug('Hue changed');
+            window.parashutter.clearFirstSearchFlag();
+            var parentNode = this.parentNode.parentNode.parentNode.parentNode.parentNode;
+            searchCaches[parentNode.id].index = 0;
+            searchCaches[parentNode.id].resultsQueue = [];
             this.parentNode.parentNode.parentNode.parentNode.parentNode.doSearch();
         });
         window.jQuery('.slider-saturation', img.element).slider({
@@ -208,6 +214,10 @@ goog.provide('parashutter.api');
             value: variations[1]
         }).on('slidechange', function() {
             window.console.debug('Saturation changed');
+            window.parashutter.clearFirstSearchFlag();
+            var parentNode = this.parentNode.parentNode.parentNode.parentNode.parentNode;
+            searchCaches[parentNode.id].index = 0;
+            searchCaches[parentNode.id].resultsQueue = [];
             this.parentNode.parentNode.parentNode.parentNode.parentNode.doSearch();
         });
         window.jQuery('.slider-lightness', img.element).slider({
@@ -217,6 +227,10 @@ goog.provide('parashutter.api');
             value: variations[2]
         }).on('slidechange', function() {
             window.console.debug('Lightness changed');
+            window.parashutter.clearFirstSearchFlag();
+            var parentNode = this.parentNode.parentNode.parentNode.parentNode.parentNode;
+            searchCaches[parentNode.id].index = 0;
+            searchCaches[parentNode.id].resultsQueue = [];
             this.parentNode.parentNode.parentNode.parentNode.parentNode.doSearch();
         });
     }
@@ -273,10 +287,14 @@ goog.provide('parashutter.api');
 
             function nextHandler(e) {
                 e.preventDefault();
-                var searchCache = this.parentNode.parentNode.searchCache;
-                var queue = searchQueue.resultsQueue;
+                window.console.debug('Next handler clicked');
+                var searchCache = searchCaches[this.parentNode.parentNode.id];
+                var queue = searchCache.resultsQueue;
                 if (searchCache.index === queue.length - 2 && searchCache.canSearch) {
-                    searchCache.element.doSearch();
+                    searchCache.element.doSearch(function(queue) {
+                        window.parashutter.loadImage(searchCache.element, queue[searchCache.index], true);
+                    });
+                    return;
                 } else if (searchCache.index === queue.length - 1) {
                     // disable until search finishes or someone presses prev
                     window.jQuery(this).unbind('click').click(nullHandler);
@@ -291,7 +309,8 @@ goog.provide('parashutter.api');
 
             function prevHandler(e) {
                 e.preventDefault();
-                var searchCache = this.parentNode.parentNode.searchCache;
+                window.console.debug('Previous handler clicked');
+                var searchCache = searchCaches[this.parentNode.parentNode.id];
                 var queue = searchQueue.resultsQueue;
                 if (searchCache.index === 1) {
                     window.jQuery(this).unbind('click').click(nullHandler);
@@ -304,11 +323,12 @@ goog.provide('parashutter.api');
                 window.parashutter.loadImage(searchCache.element, queue[searchCache.index], true);
             }
 
-            window.console.log('slider setup');
-            window.jQuery('.para-next').click(nextHandler);
-            window.jQuery('.para-prev').click(prevHandler);
-            window.jQuery('.para-input').on('input', function() {
+            window.console.debug('setting next and prev handlers');
+            window.jQuery('.para-next').bind('click', nextHandler);
+            window.jQuery('.para-prev').bind('click', prevHandler);
+            window.jQuery('.para-input').bind('input', function() {
                 window.console.debug('Keywords changed');
+                window.parashutter.clearFirstSearchFlag();
                 this.parentNode.parentNode.doSearch();
             });
         });
@@ -325,10 +345,10 @@ goog.provide('parashutter.api');
                 window.parashutter.analyzedColors.push([color, true]);
             });
             var images = findImages();
-            installEventHandlers();
             for (var i = 0; i < images.length; i++) {
                 installImageSelector(images[i], color);
             }
+            installEventHandlers();
         };
     }
     

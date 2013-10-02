@@ -42,8 +42,9 @@ exports.storeSessionData = function(sessionId, elementsWithImages) {
                 toStore[elementId] = elementsWithImages[elementId];
             }
         }
-        redisClient.hmset(sessionId + ':elements', toStore);
-        redisClient.quit();
+        redisClient.hmset(sessionId + ':elements', toStore, function(err, response) {
+            redisClient.quit();
+        });
     });
 };
 

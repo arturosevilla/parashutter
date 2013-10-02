@@ -58,7 +58,7 @@ goog.provide('parashutter.gallery');
 
     function sync() {
         window.parashutter.utils.ajax(
-            'put',
+            'post',
             '/sample/' + window.parashutter.session,
             window.parashutter._session
         );
@@ -69,7 +69,8 @@ goog.provide('parashutter.gallery');
     };
 
     window['parashutter']['loadImage'] = function(element, searchResult, save) {
-        element.style.backgroundImage = 'url(' + searchResult.preview + ')';
+        window.console.debug('setting bg image: ' + searchResult.preview.url);
+        element.style.backgroundImage = 'url(' + searchResult.preview.url + ')';
         var eid = element.getAttribute('id');
         if (!window.parashutter._session[eid]) {
             window.parashutter._session[eid] = {};
@@ -108,7 +109,7 @@ goog.provide('parashutter.gallery');
                         window.parashutter.firstSearch.vertical.ids = {};
                     }
                 } else {
-                    callback(images);
+                    callback(JSON.parse(images).results);
                 }
             }
         );

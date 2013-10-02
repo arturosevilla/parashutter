@@ -291,7 +291,7 @@
 }
 
 /* line 180, ../sass/parashutter.sass */
-.loading {
+.para-loading {
   display: block;
   position: fixed;
   top: 50%;
@@ -302,6 +302,6 @@
 }
 
 /* line 189, ../sass/parashutter.sass */
-.nodisplay {
+.para-nodisplay {
   display: none;
 }

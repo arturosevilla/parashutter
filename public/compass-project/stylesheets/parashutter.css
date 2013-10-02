@@ -289,3 +289,19 @@
   width: 95%;
   float: left;
 }
+
+/* line 180, ../sass/parashutter.sass */
+.loading {
+  display: block;
+  position: fixed;
+  top: 50%;
+  right: 50%;
+  width: 100px;
+  height: 100px;
+  margin: -50px -50px 0 0;
+}
+
+/* line 189, ../sass/parashutter.sass */
+.nodisplay {
+  display: none;
+}

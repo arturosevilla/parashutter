@@ -1,0 +1,12 @@
+{
+	"name": "parashutter",
+	"description": "Imaging prototype",
+	"author": "Arturo/Alex",
+	"version": "0.1.0",
+	"dependencies": {
+		"custom-logger": "0.2.x",
+		"redis": "0.8.x",
+		"express": "3.4.x",
+		"redis-url": "0.1.0"
+	}
+}

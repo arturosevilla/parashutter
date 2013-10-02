@@ -1,12 +1,8 @@
+goog.require('parashutter.utils');
 goog.provide('parashutter.color');
 
 (function(window, undefined) {
-    if (String.prototype.trim === undefined) {
-        String.prototype.trim = function () {
-            return this.replace(/^\s+|\s+$/g, '');
-        };
-    }
-
+    
     function rgb2hsl(rgb) {
         var r = rgb[0],
             g = rgb[1],

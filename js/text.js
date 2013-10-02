@@ -1,3 +1,4 @@
+goog.require('parashutter.utils');
 goog.provide('parashutter.text');
 
 (function(window, undefined) {
@@ -606,8 +607,34 @@ goog.provide('parashutter.text');
         return corpus;
     }
 
+    function getCorpusFromKeywords() {
+        var KEYWORD_BIAS = 10;
+        var metaTags = document.getElementsByTagName('meta');
+        var corpus = [];
+        metaTags.forEach(function(element) {
+            var name = element.getAttribute('name');
+            if (name === 'keywords' || name === 'description') {
+                var keywordsContent = element.getAttribute('content');
+                keywordsContent.replace(
+                    /\W/,
+                    ' '
+                ).split(' ').forEach(function(keyword) {
+                    for (var i = 0; i < KEYWORD_BIAS; i++) {
+                        corpus.push(keyword.trim());
+                    }
+                });
+            }
+        });
+
+        return corpus;
+    }
+
     function getCorpusFromDocument() {
-        return getCorpusFromElement(window.document);
+        var corpus = getCorpusFromKeywords();
+        return corpus.push.apply(
+            corpus,
+            getCorpusFromElement(window.document)
+        );
     }
 
     if (!window['parashutter']) {

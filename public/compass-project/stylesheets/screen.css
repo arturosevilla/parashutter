@@ -73,14 +73,14 @@ a {
 }
 /* line 42, ../sass/screen.sass */
 .s_maincontent #nav_how {
-  background-image: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 100, color-stop(0%, #eddd2d), color-stop(60%, #c3b518), color-stop(100%, #b0a313));
-  background-image: -webkit-radial-gradient(#eddd2d, #c3b518 60%, #b0a313);
-  background-image: -moz-radial-gradient(#eddd2d, #c3b518 60%, #b0a313);
-  background-image: -o-radial-gradient(#eddd2d, #c3b518 60%, #b0a313);
-  background-image: radial-gradient(#eddd2d, #c3b518 60%, #b0a313);
-  -webkit-box-shadow: inset 0 20px 60px #776e05;
-  -moz-box-shadow: inset 0 20px 60px #776e05;
-  box-shadow: inset 0 20px 60px #776e05;
+  background-image: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 100, color-stop(0%, #50af2f), color-stop(60%, #1d8118), color-stop(100%, #195404));
+  background-image: -webkit-radial-gradient(#50af2f, #1d8118 60%, #195404);
+  background-image: -moz-radial-gradient(#50af2f, #1d8118 60%, #195404);
+  background-image: -o-radial-gradient(#50af2f, #1d8118 60%, #195404);
+  background-image: radial-gradient(#50af2f, #1d8118 60%, #195404);
+  -webkit-box-shadow: inset 0 20px 60px #0f3502;
+  -moz-box-shadow: inset 0 20px 60px #0f3502;
+  box-shadow: inset 0 20px 60px #0f3502;
   background-color: #c3b518;
 }
 /* line 46, ../sass/screen.sass */
@@ -161,7 +161,7 @@ a {
 
 /* line 84, ../sass/screen.sass */
 .brown {
-  color: #9f2d00;
+  color: #fcec35;
 }
 
 /* line 86, ../sass/screen.sass */

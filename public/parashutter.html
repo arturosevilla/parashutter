@@ -13,6 +13,7 @@
 			para_gallery();
 			toggle_like();
 			toggle_colors();
+			toggle_loading();
 			open_gallery();
 		});
 		$(function() {
@@ -79,6 +80,18 @@
 		}
 		function toggle_colors(){
 			$(".para-on, .para-off").click(colorHandler);
+		}
+		function toggle_loading(){
+			$(".loading").click(function (e){
+				e.preventDefault();
+				if( $(this).attr('class').indexOf('nodisplay') == -1 ){
+					$(this).addClass("nodisplay");
+				}
+				else{
+					$(this).removeClass("nodisplay");
+				}
+			});
+
 		}
   	</script>
 
@@ -172,6 +185,7 @@
 				</div>
 			</div>
 		</div>
+		<img src="compass-project/images/loading.gif" class="loading" />
 	</div>
 </body>
 </html>

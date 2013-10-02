@@ -203,9 +203,12 @@ goog.provide('parashutter.api');
             window.console.debug('Hue changed');
             window.parashutter.clearFirstSearchFlag();
             var parentNode = this.parentNode.parentNode.parentNode.parentNode.parentNode;
-            searchCaches[parentNode.id].index = 0;
-            searchCaches[parentNode.id].resultsQueue = [];
-            this.parentNode.parentNode.parentNode.parentNode.parentNode.doSearch();
+            var searchCache = searchCaches[parentNode.id];
+            searchCache.index = 0;
+            searchCache.resultsQueue = [];
+            this.parentNode.parentNode.parentNode.parentNode.parentNode.doSearch(function(queue) {
+                window.parashutter.loadImage(searchCache.element, queue[0], true);
+            });
         });
         window.jQuery('.slider-saturation', img.element).slider({
             max: 1,
@@ -216,9 +219,12 @@ goog.provide('parashutter.api');
             window.console.debug('Saturation changed');
             window.parashutter.clearFirstSearchFlag();
             var parentNode = this.parentNode.parentNode.parentNode.parentNode.parentNode;
-            searchCaches[parentNode.id].index = 0;
-            searchCaches[parentNode.id].resultsQueue = [];
-            this.parentNode.parentNode.parentNode.parentNode.parentNode.doSearch();
+            var searchCache = searchCaches[parentNode.id];
+            searchCache.index = 0;
+            searchCache.resultsQueue = [];
+            this.parentNode.parentNode.parentNode.parentNode.parentNode.doSearch(function(queue) {
+                window.parashutter.loadImage(searchCache.element, queue[0], true);
+            });
         });
         window.jQuery('.slider-lightness', img.element).slider({
             max: 1,
@@ -229,9 +235,12 @@ goog.provide('parashutter.api');
             window.console.debug('Lightness changed');
             window.parashutter.clearFirstSearchFlag();
             var parentNode = this.parentNode.parentNode.parentNode.parentNode.parentNode;
-            searchCaches[parentNode.id].index = 0;
-            searchCaches[parentNode.id].resultsQueue = [];
-            this.parentNode.parentNode.parentNode.parentNode.parentNode.doSearch();
+            var searchCache = searchCaches[parentNode.id];
+            searchCache.index = 0;
+            searchCache.resultsQueue = [];
+            this.parentNode.parentNode.parentNode.parentNode.parentNode.doSearch(function(queue) {
+                window.parashutter.loadImage(searchCache.element, queue[0], true);
+            });
         });
     }
 

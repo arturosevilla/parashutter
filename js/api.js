@@ -53,7 +53,7 @@ goog.provide('parashutter.api');
     }
 
     var menuHTML = '<div class="para-bar">' +
-        '<class="para-first para-prev"></a>' +
+        '<a class="para-first para-prev"></a>' +
         '<a class="para-gallery"></a>' +
         '<a class="para-email"></a>' +
         '<a class="para-buy"></a>' +

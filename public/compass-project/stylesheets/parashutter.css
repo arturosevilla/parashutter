@@ -1,6 +1,5 @@
 /* line 5, ../sass/parashutter.sass */
 .para-image-replacement {
-  background: url("../images/mirror.jpg") no-repeat 0 0;
   background-size: cover;
   color: #043b5e;
   position: relative;

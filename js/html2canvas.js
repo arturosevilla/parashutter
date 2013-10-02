@@ -4,6 +4,7 @@
 
   Released under MIT License
 */
+goog.provide('parashutter.html2canvas');
 
 (function(window, document, undefined){
 
@@ -2656,7 +2657,12 @@ _html2canvas.Util.Support = function (options, doc) {
     svgRendering: options.svgRendering && supportSVGRendering()
   };
 };
-window.html2canvas = function(elements, opts) {
+
+if (!window['parashutter']) {
+    window['parashutter'] = {};
+}
+
+window['parashutter']['html2canvas'] = function(elements, opts) {
   elements = (elements.length) ? elements : [elements];
   var queue,
   canvas,
@@ -2733,8 +2739,8 @@ window.html2canvas = function(elements, opts) {
   };
 };
 
-window.html2canvas.log = _html2canvas.Util.log; // for renderers
-window.html2canvas.Renderer = {
+window['parashutter']['html2canvas'].log = _html2canvas.Util.log; // for renderers
+window['parashutter']['html2canvas'].Renderer = {
   Canvas: undefined // We are assuming this will be used
 };
 _html2canvas.Renderer.Canvas = function(options) {
@@ -2865,4 +2871,5 @@ _html2canvas.Renderer.Canvas = function(options) {
     return canvas;
   };
 };
+
 })(window,document);

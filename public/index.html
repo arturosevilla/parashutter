@@ -2,13 +2,21 @@
 <head>
 	<title>parashutter</title>
 	<meta name="keywords" content="computers, apps, start-up, adventure">
-	<script type="text/javascript" src="compass-project/javascripts/jquery-1.10.1.min.js"></script>
-	<script type="text/javascript" src="compass-project/javascripts/bootstrap.min.js"></script>
-	
+	<!--<script type="text/javascript"
+            src="compass-project/javascripts/jquery-1.10.1.min.js"></script>-->
+
+ 	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	<script type="text/javascript"
+            src="compass-project/javascripts/bootstrap.min.js"></script>
+        <script type="text/javascript" src="/js/api.min.js"></script>
+        <script type="text/javascript">
+            $(function() {
+                parashutter.analyze();
+            });
+        </script>
 	<script type="text/javascript" src="compass-project/javascripts/jquery-scrolltofixed-min.js"></script>
 	<script type="text/javascript" src="compass-project/javascripts/functions.js"></script>
-	
-
+	<script type="text/javascript" src="compass-project/javascripts/functions.js"></script>
 	<link rel="stylesheet" type="text/css" href="compass-project/stylesheets/styles.css">
 	<link rel="stylesheet" type="text/css" href="compass-project/stylesheets/screen.css">
 
@@ -111,7 +119,10 @@
 			<div class="span4 offset1">
 				<div id="how-floater">
 					<h1 class="brown">Try it here</h1>
-					<img src="compass-project/images/mirror.jpg" />
+					<img
+                                            id="imgTry"
+                                            style="width:500px; height:350px;"
+                                            class="parashutter-img" />
 				</div>
 			</div>
 			<div class="span6">

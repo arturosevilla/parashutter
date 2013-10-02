@@ -111,6 +111,11 @@ goog.provide('parashutter.api');
         '</div>' +
         '</div>';
 
+    var galleryHTML = "";
+    for (var i = 0; i < images.length; i++) {
+        galleryHTML+= "<img style=\"height: 150px\" src=\"" + images[i].preview + "\" alt=\"" + images[i].photo_id + "\">"; 
+    };
+
     function installImageSelector(img, color) {
         if (img.element.tagName.toLowerCase() === 'img') {
             // replace by a div element
@@ -168,12 +173,16 @@ goog.provide('parashutter.api');
                         /* remove gif animation */
                         window.jQuery('.para-loading').addClass('nodisplay');
                     }
+                    function(){
+                        window.jQuery('#para-fancybox-container').innerHTML = galleryHTML;
+                    }
                 );
             });
 
             window.jQuery(".para-hate, .para-love").click(function(e) {
                 e.preventDefault();
                 var baseId = this.parentNode.parentNode.getAttribute('id');
+
                 var image = window.parashutter.getSelectedImage(baseId);
                 if (image === null) {
                     return;

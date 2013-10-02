@@ -62,7 +62,7 @@
 				position: absolute
 				right: 0
 				text-align: left
-				bottom: 63px
+				bottom: 60px
 				.para-my_palette
 					@include border-radius(8px 0 0 8px)
 					background: #FFF
@@ -78,7 +78,7 @@
 					display: inline-block
 					@include box-shadow(inset 10px 0 40px rgba(218, 218, 218, 1))
 					vertical-align: top
-					width: 198px
+					width: 194px
 					height: 245px
 
 			&:hover
@@ -88,7 +88,7 @@
 	position: absolute
 	right: 10px
 	bottom: -10px
-	padding: 0 8px 0 20px
+	padding: 0 8px 0 50px
 	.para-arrow_down 
 		width: 0
 		height: 0
@@ -130,6 +130,7 @@
 	text-transform: uppercase
 	span
 		text-transform: none
+		font-size: 10px
 		color: #999
 .para-input
 	width: 100%
@@ -147,6 +148,7 @@
 	height: 1px
 	overflow: hidden
 	background: rgba(0, 0, 0, .8)
+	z-index: 1500
 	#para-fancybox-container
 		height: 90%
 		width: 80%
@@ -156,7 +158,7 @@
 		text-align: center
 		overflow: scroll
 		position: relative
-	#para-fanybox-close
+	#para-fancybox-close
 		display: block
 		position: fixed
 		top: 4%

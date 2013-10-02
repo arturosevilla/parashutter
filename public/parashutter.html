@@ -9,86 +9,168 @@
  	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 	<script>
+		$(window).load(function(){
+			para_gallery();
+			toggle_like();
+			toggle_colors();
+			open_gallery();
+		});
 		$(function() {
 			$( "#slider" ).slider();
 			$( "#slider2" ).slider();
 			$( "#slider3" ).slider();
 		});
+		function para_gallery(){
+			$(".para-gallery").click(function (){
+				$('#para-fancybox').css("height", "100%")
+		        $('#para-fancybox').animate({
+		            opacity: 1
+		        }, 400);
+		    });
+		    $("#para-fanybox-close").click(function (){
+		        $('#para-fancybox').animate({
+		            opacity: 0
+		        }, 400);
+		        $('#para-fancybox').css("height", "1px")
+		    });
+		}
+		// *************** Content *********************
+		function like(){
+			$(".para-love").click(function (e){
+				e.preventDefault();
+				var clase = $(this).attr('class')    
+		        if( $(this).attr('class').indexOf('para-love') !== -1 ){
+		           	//parashutter.like(gallery_id, img_id);  
+		            $(this).removeClass('para-love').addClass('para-hate')  
+
+		        }
+		 	});
+		}
+		function likeHandler(e){
+			e.preventDefault();
+			var clase = $(this).attr('class') 
+			if( $(this).attr('class').indexOf('para-love') !== -1 ){
+		        //parashutter.like(gallery_id, img_id);  
+		        $(this).removeClass('para-love').addClass('para-hate')  
+		    }
+		    else{
+		    	//parashutter.unlike(gallery_id, img_id); 
+		     	$(this).removeClass('para-hate').addClass('para-love') 
+		    }
+		}
+		function toggle_like(){
+			$(".para-hate , .para-love").click(likeHandler);
+		}
+		function open_gallery(){
+			$(".para-gallery").click(function (e){
+				e.preventDefault();
+				//parashutter.getLikedImages(gallery_id, function(images){});
+			});
+		}
+		function colorHandler(e){
+			e.preventDefault();
+			var clase = $(this).attr('class') 
+			if( $(this).attr('class').indexOf('para-on') !== -1 ){ 
+		        $(this).removeClass('para-on').addClass('para-off')  
+		    }
+		    else{ 
+		     	$(this).removeClass('para-off').addClass('para-on') 
+		    }
+		}
+		function toggle_colors(){
+			$(".para-on, .para-off").click(colorHandler);
+		}
   	</script>
 
   	<!-- Content -->
 	<div class="para-image-replacement">
-		<div class="para-container">
-			<div class="para-bar">
-				<a class="para-first para-prev"></a><a class="para-hate"></a><a class="para-gallery"></a><a class="para-email"></a><a class="para-buy"></a><a class="para-love"></a><a class="para-last para-next"></a>
-				<div class="para-settings">
-					<div class="para-settings_panel">
-						<div class="para-my_palette">
-							<span class="para-title">
-								My Palette
+		<div class="para-bar">
+			<a class="para-first para-prev"></a><a class="para-gallery"></a><a class="para-email"></a><a class="para-buy"></a><a class="para-love"></a><a class="para-last para-next"></a>
+			<div class="para-settings">
+				<div class="para-settings_panel">
+					<div class="para-my_palette">
+						<span class="para-title">
+							My Palette
+						</span>
+						<div class="para-pallete-item para-on para-palette-current">
+							<span class="para-pallete-item-color">
 							</span>
-							<div class="para-pallete-item para-on para-palette-current">
-								<span class="para-pallete-item-color">
-								</span>
-								<span class="para-pallete-item-text">#FFDDE9</span>
-							</div>
-							<div class="para-pallete-item para-on">
-								<span class="para-pallete-item-color">
-								</span>
-								<span class="para-pallete-item-text">#FFDDE9</span>
-							</div>
-							<div class="para-pallete-item para-off">
-								<span class="para-pallete-item-color">
-								</span>
-								<span class="para-pallete-item-text">#FFDDE9</span>
-							</div>
-							<div class="para-pallete-item para-off">
-								<span class="para-pallete-item-color">
-								</span>
-								<span class="para-pallete-item-text">#FFDDE9</span>
-							</div>							
-						</div><div class="para-controls">
-							<span class="para-title">
-								Controlls
-							</span>
-							<span class="para-subtitle">
-								hue
-							</span>
-							<div id="slider"></div>
-							<span class="para-subtitle">
-								saturation
-							</span>
-							<div id="slider2"></div>
-							<span class="para-subtitle">
-								brightness
-							</span>
-							<div id="slider3"></div>
-							<span class="para-subtitle">
-								keywords <span>separated with a comma</span>
-							</span>
-							<input type="text" class="para-input" />
+							<span class="para-pallete-item-text">#FFDDE9</span>
 						</div>
-						<div class="para-arrow_container"><div class="para-arrow_down"></div></a>
+						<div class="para-pallete-item para-on">
+							<span class="para-pallete-item-color">
+							</span>
+							<span class="para-pallete-item-text">#FFDDE9</span>
+						</div>
+						<div class="para-pallete-item para-off">
+							<span class="para-pallete-item-color">
+							</span>
+							<span class="para-pallete-item-text">#FFDDE9</span>
+						</div>
+						<div class="para-pallete-item para-off">
+							<span class="para-pallete-item-color">
+							</span>
+							<span class="para-pallete-item-text">#FFDDE9</span>
+						</div>							
+					</div><div class="para-controls">
+						<span class="para-title">
+							Controlls
+						</span>
+						<span class="para-subtitle">
+							hue
+						</span>
+						<div id="slider"></div>
+						<span class="para-subtitle">
+							saturation
+						</span>
+						<div id="slider2"></div>
+						<span class="para-subtitle">
+							brightness
+						</span>
+						<div id="slider3"></div>
+						<span class="para-subtitle">
+							keywords <span>separated with a comma</span>
+						</span>
+						<input type="text" class="para-input" />
 					</div>
+					<div class="para-arrow_container"><div class="para-arrow_down"></div></a>
 				</div>
 			</div>
 		</div>
 	</div>
 	<div id="para-fancybox">
-		<div class="para-fancybox-container">
-			<div id="fanybox-container-close"></div>
-			<img class="thumb" src="http://www.placehold.it/200x200" />
-			<img class="thumb" src="../images/image1" />
-			<img class="thumb" src="../images/image1" />
-			<img class="thumb" src="../images/image1" />
-			<img class="thumb" src="../images/image1" />
-			<img class="thumb" src="../images/image1" />
-			<img class="thumb" src="../images/image1" />
-			<img class="thumb" src="../images/image1" />
-			<img class="thumb" src="../images/image1" />
-			<img class="thumb" src="../images/image1" />
-			<img class="thumb" src="../images/image1" />
-			<img class="thumb" src="../images/image1" />
+		<div id="para-fancybox-container">
+			<div id="para-fancybox-content">
+				<a id="para-fanybox-close">x</a>
+				<div class="para-fancybox-column">
+					<img class="para-thumb" src="http://www.placehold.it/200x200" />
+					<img class="para-thumb" src="http://www.placehold.it/300x600" />
+					<img class="para-thumb" src="http://www.placehold.it/500x400" />
+					<img class="para-thumb" src="http://www.placehold.it/800x600" />
+					<img class="para-thumb" src="http://www.placehold.it/700x300" />
+					<img class="para-thumb" src="http://www.placehold.it/1200x800" />
+					<img class="para-thumb" src="http://www.placehold.it/500x300" />
+					<img class="para-thumb" src="http://www.placehold.it/300x200" />
+				</div><div class="para-fancybox-column">
+					<img class="para-thumb" src="http://www.placehold.it/700x500" />
+					<img class="para-thumb" src="http://www.placehold.it/1200x700" />
+					<img class="para-thumb" src="http://www.placehold.it/1000x800" />
+					<img class="para-thumb" src="http://www.placehold.it/900x1000" />
+					<img class="para-thumb" src="http://www.placehold.it/400x100" />
+					<img class="para-thumb" src="http://www.placehold.it/300x200" />
+					<img class="para-thumb" src="http://www.placehold.it/200x300" />
+					<img class="para-thumb" src="http://www.placehold.it/500x300" />
+				</div><div class="para-fancybox-column">
+					<img class="para-thumb" src="http://www.placehold.it/500x400" />
+					<img class="para-thumb" src="http://www.placehold.it/600x200" />
+					<img class="para-thumb" src="http://www.placehold.it/700x300" />
+					<img class="para-thumb" src="http://www.placehold.it/800x400" />
+					<img class="para-thumb" src="http://www.placehold.it/900x700" />
+					<img class="para-thumb" src="http://www.placehold.it/300x300" />
+					<img class="para-thumb" src="http://www.placehold.it/400x200" />
+					<img class="para-thumb" src="http://www.placehold.it/200x500" />
+				</div>
+			</div>
 		</div>
 	</div>
 </body>

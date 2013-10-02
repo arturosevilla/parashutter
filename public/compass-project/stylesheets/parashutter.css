@@ -8,14 +8,19 @@
   height: 400px;
   font-family: "Oxygen", sans-serif;
 }
-/* line 13, ../sass/parashutter.sass */
+/* line 14, ../sass/parashutter.sass */
+.para-image-replacement:hover .para-bar {
+  display: block;
+}
+/* line 16, ../sass/parashutter.sass */
 .para-image-replacement .para-bar {
+  display: none;
   position: absolute;
   text-align: right;
   right: 10px;
   bottom: 10px;
 }
-/* line 19, ../sass/parashutter.sass */
+/* line 23, ../sass/parashutter.sass */
 .para-image-replacement .para-bar > a, .para-image-replacement .para-bar .para-settings {
   background: white url("../images/parabar_icons.png") no-repeat 0 15px;
   -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
@@ -29,13 +34,13 @@
   width: 20px;
   height: 20px;
 }
-/* line 30, ../sass/parashutter.sass */
+/* line 34, ../sass/parashutter.sass */
 .para-image-replacement .para-bar > a:hover, .para-image-replacement .para-bar .para-settings:hover {
   -webkit-box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2);
   box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2);
 }
-/* line 32, ../sass/parashutter.sass */
+/* line 36, ../sass/parashutter.sass */
 .para-image-replacement .para-bar .para-first {
   -webkit-border-radius: 8px 0 0 8px;
   -moz-border-radius: 8px 0 0 8px;
@@ -44,7 +49,7 @@
   border-radius: 8px 0 0 8px;
   border-left: none;
 }
-/* line 35, ../sass/parashutter.sass */
+/* line 39, ../sass/parashutter.sass */
 .para-image-replacement .para-bar .para-last {
   -webkit-border-radius: 0 8px 8px 0;
   -moz-border-radius: 0 8px 8px 0;
@@ -53,35 +58,35 @@
   border-radius: 0 8px 8px 0;
   border-right: none;
 }
-/* line 38, ../sass/parashutter.sass */
+/* line 42, ../sass/parashutter.sass */
 .para-image-replacement .para-bar .para-prev {
   background-position: -10px 15px;
 }
-/* line 40, ../sass/parashutter.sass */
+/* line 44, ../sass/parashutter.sass */
 .para-image-replacement .para-bar .para-hate {
   background-position: -57px 15px;
 }
-/* line 42, ../sass/parashutter.sass */
+/* line 46, ../sass/parashutter.sass */
 .para-image-replacement .para-bar .para-gallery {
   background-position: -104px 15px;
 }
-/* line 44, ../sass/parashutter.sass */
+/* line 48, ../sass/parashutter.sass */
 .para-image-replacement .para-bar .para-email {
   background-position: -152px 15px;
 }
-/* line 46, ../sass/parashutter.sass */
+/* line 50, ../sass/parashutter.sass */
 .para-image-replacement .para-bar .para-buy {
   background-position: -351px 15px;
 }
-/* line 48, ../sass/parashutter.sass */
+/* line 52, ../sass/parashutter.sass */
 .para-image-replacement .para-bar .para-love {
   background-position: -205px 15px;
 }
-/* line 50, ../sass/parashutter.sass */
+/* line 54, ../sass/parashutter.sass */
 .para-image-replacement .para-bar .para-next {
   background-position: -249px 15px;
 }
-/* line 52, ../sass/parashutter.sass */
+/* line 56, ../sass/parashutter.sass */
 .para-image-replacement .para-bar .para-settings {
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
@@ -91,7 +96,7 @@
   background-position: -290px 15px;
   margin-left: 10px;
 }
-/* line 56, ../sass/parashutter.sass */
+/* line 60, ../sass/parashutter.sass */
 .para-image-replacement .para-bar .para-settings .para-settings_panel {
   display: none;
   position: absolute;
@@ -99,7 +104,7 @@
   text-align: left;
   bottom: 63px;
 }
-/* line 62, ../sass/parashutter.sass */
+/* line 66, ../sass/parashutter.sass */
 .para-image-replacement .para-bar .para-settings .para-settings_panel .para-my_palette {
   -webkit-border-radius: 8px 0 0 8px;
   -moz-border-radius: 8px 0 0 8px;
@@ -111,9 +116,9 @@
   display: inline-block;
   vertical-align: top;
   width: 98px;
-  height: 235px;
+  height: 245px;
 }
-/* line 70, ../sass/parashutter.sass */
+/* line 74, ../sass/parashutter.sass */
 .para-image-replacement .para-bar .para-settings .para-settings_panel .para-controls {
   -webkit-border-radius: 0 8px 8px 0;
   -moz-border-radius: 0 8px 8px 0;
@@ -127,22 +132,22 @@
   -moz-box-shadow: inset 10px 0 40px #dadada;
   box-shadow: inset 10px 0 40px #dadada;
   vertical-align: top;
-  width: 250px;
-  height: 235px;
+  width: 198px;
+  height: 245px;
 }
-/* line 81, ../sass/parashutter.sass */
+/* line 85, ../sass/parashutter.sass */
 .para-image-replacement .para-bar .para-settings:hover .para-settings_panel {
   display: block;
 }
 
-/* line 83, ../sass/parashutter.sass */
+/* line 87, ../sass/parashutter.sass */
 .para-arrow_container {
   position: absolute;
   right: 10px;
   bottom: -10px;
   padding: 0 8px 0 20px;
 }
-/* line 88, ../sass/parashutter.sass */
+/* line 92, ../sass/parashutter.sass */
 .para-arrow_container .para-arrow_down {
   width: 0;
   height: 0;
@@ -151,12 +156,12 @@
   border-top: 10px solid #e3e3e3;
 }
 
-/* line 94, ../sass/parashutter.sass */
+/* line 98, ../sass/parashutter.sass */
 .para-pallete-item {
   padding: 5px 15px;
   margin: 10px -15px;
 }
-/* line 97, ../sass/parashutter.sass */
+/* line 101, ../sass/parashutter.sass */
 .para-pallete-item .para-pallete-item-color {
   background: red url("../images/para-on-off.png") no-repeat;
   -webkit-border-radius: 4px;
@@ -170,33 +175,33 @@
   height: 22px;
   vertical-align: middle;
 }
-/* line 105, ../sass/parashutter.sass */
+/* line 109, ../sass/parashutter.sass */
 .para-pallete-item .para-pallete-item-text {
   display: inline-block;
   vertical-align: middle;
 }
 
-/* line 109, ../sass/parashutter.sass */
+/* line 113, ../sass/parashutter.sass */
 .para-on .para-pallete-item-color {
   background-position: center 7px;
 }
 
-/* line 111, ../sass/parashutter.sass */
+/* line 115, ../sass/parashutter.sass */
 .para-off {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
   opacity: 0.5;
 }
-/* line 113, ../sass/parashutter.sass */
+/* line 117, ../sass/parashutter.sass */
 .para-off .para-pallete-item-color {
   background-position: center -30px;
 }
 
-/* line 115, ../sass/parashutter.sass */
+/* line 119, ../sass/parashutter.sass */
 .para-palette-current {
   background-color: #d9d9d9;
 }
 
-/* line 117, ../sass/parashutter.sass */
+/* line 121, ../sass/parashutter.sass */
 .para-title {
   display: block;
   color: #888888;
@@ -204,20 +209,20 @@
   margin-bottom: 20px;
 }
 
-/* line 122, ../sass/parashutter.sass */
+/* line 126, ../sass/parashutter.sass */
 .para-subtitle {
   display: block;
   margin: 10px 0 5px;
   font-size: 12px;
   text-transform: uppercase;
 }
-/* line 127, ../sass/parashutter.sass */
+/* line 131, ../sass/parashutter.sass */
 .para-subtitle span {
   text-transform: none;
   color: #999999;
 }
 
-/* line 130, ../sass/parashutter.sass */
+/* line 134, ../sass/parashutter.sass */
 .para-input {
   width: 100%;
   -webkit-border-radius: 4px;
@@ -227,4 +232,60 @@
   border-radius: 4px;
   padding: 5px;
   border: #999999 solid 1px;
+}
+
+/* line 141, ../sass/parashutter.sass */
+#para-fancybox {
+  opacity: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.8);
+}
+/* line 150, ../sass/parashutter.sass */
+#para-fancybox #para-fancybox-container {
+  height: 90%;
+  width: 80%;
+  background: white;
+  margin: 2% auto;
+  border: white solid 20px;
+  text-align: center;
+  overflow: scroll;
+  position: relative;
+}
+/* line 159, ../sass/parashutter.sass */
+#para-fancybox #para-fanybox-close {
+  display: block;
+  position: fixed;
+  top: 4%;
+  right: 20px;
+  background: #888888;
+  cursor: pointer;
+  color: white;
+  padding: 15px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+}
+/* line 169, ../sass/parashutter.sass */
+#para-fancybox #para-fanybox-close:hover {
+  background: #999999;
+}
+/* line 171, ../sass/parashutter.sass */
+#para-fancybox .para-fancybox-column {
+  display: inline-block;
+  width: 33%;
+  vertical-align: top;
+}
+/* line 175, ../sass/parashutter.sass */
+#para-fancybox .para-thumb {
+  display: block;
+  margin: 5px;
+  width: 95%;
+  float: left;
 }

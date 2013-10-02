@@ -10,7 +10,11 @@
 	width: 800px
 	height: 400px
 	font-family: 'Oxygen', sans-serif
+	&:hover
+		.para-bar
+			display: block
 	.para-bar
+		display: none
 		position: absolute
 		text-align: right
 		right: 10px
@@ -66,7 +70,7 @@
 					display: inline-block
 					vertical-align: top
 					width: 98px
-					height: 235px
+					height: 245px
 				.para-controls
 					@include border-radius(0 8px 8px 0)
 					background: #EFEEED
@@ -74,8 +78,8 @@
 					display: inline-block
 					@include box-shadow(inset 10px 0 40px rgba(218, 218, 218, 1))
 					vertical-align: top
-					width: 250px
-					height: 235px
+					width: 198px
+					height: 245px
 
 			&:hover
 				.para-settings_panel
@@ -133,5 +137,43 @@
 	padding: 5px
 	border: #999 solid 1px
 
-
-
+//PARA FANCY BOX
+#para-fancybox
+	opacity: 0
+	position: fixed
+	top: 0
+	left: 0
+	width: 100%
+	height: 1px
+	overflow: hidden
+	background: rgba(0, 0, 0, .8)
+	#para-fancybox-container
+		height: 90%
+		width: 80%
+		background: #FFFFFF
+		margin: 2% auto
+		border: #FFF solid 20px
+		text-align: center
+		overflow: scroll
+		position: relative
+	#para-fanybox-close
+		display: block
+		position: fixed
+		top: 4%
+		right: 20px
+		background: #888
+		cursor: pointer
+		color: #FFF
+		padding: 15px
+		@include border-radius(4px)
+		&:hover
+			background: #999
+	.para-fancybox-column
+		display: inline-block
+		width: 33%
+		vertical-align: top
+	.para-thumb
+		display: block
+		margin: 5px
+		width: 95%
+		float: left

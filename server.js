@@ -22,6 +22,19 @@ server.get('/sample/:id', function(request, response) {
     });
 });
 
+server.post('/sample/:sample', function(request, response) {
+    var imageData = request.body;
+    if (typeof imageData === 'string') {
+        imageData = JSON.parse(imageData);
+    }
+    session.storeSessionData(
+        request.params.sample,
+        imageData
+    );
+    response.status(200);
+    response.end();
+});
+
 server.get('/sample/:sample/:element', function(request, response) {
     session.getTopImages(
         request.params.sample,

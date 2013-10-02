@@ -41,21 +41,75 @@ goog.provide('parashutter.gallery');
         window.document.body.appendChild(fancyBox);
         window.parashutter._session = session;
         if (window.parashutter.utils.isEmptyObject(session)) {
-            window.parashutter.firtSearch = true;
+            window.parashutter.firtSearch = {
+                horizontal: {
+                    ids: {},
+                    results: []
+                },
+                vertical: {
+                    ids: {},
+                    results: [] 
+                }
+            };
         }
         initEventHandlers();
     };
 
+    function sync() {
+        window.parashutter.utils.ajax(
+            'put',
+            '/sample/' + window.parashutter.session,
+            window.parashutter._session
+        );
+    }
+
     window['parashutter']['clearFirstSearchFlag'] = function() {
-        window.parashutter.firstSearch = false;
+        delete  window.parashutter.firstSearch;
+    };
+
+    window['parashutter']['loadImage'] = function(element, searchResult, save) {
+        element.style.backgroundImage = 'url(' + searchResult.preview + ')';
+        var eid = element.getAttribute('id');
+        if (!window.parashutter._session[eid]) {
+            window.parashutter._session[eid] = {};
+        }
+        var photo_id = searchResult.photo_id;
+        window.parashutter._session[eid] = searchResult;
+        if (save) {
+            sync();
+        }
     };
 
     window['parashutter']['searchForImages'] = function(width, height, color, keywords, callback) {
+        if (window.parashutter.firstSearch) {
+            var field;
+            if (width >= height) {
+                field = window.parashutter.firstSearch.horizontal;
+            } else {
+                field = window.parashutter.firstSearch.vertical;
+            }
+            if (field.results.length > 0) {
+                callback(field.results);
+                return;
+            }
+        }
         window.parashutter.utils.ajax(
             'get',
             '/' + width + 'x' + height + '/' + color + '/' + keywords,
             null,
-            callback
+            function(images) {
+                if (window.parashutter.firstSearch) {
+                    if (width >= height) {
+                        window.parashutter.firstSearch.horizontal.results = images;
+                        window.parashutter.firstSearch.horizontal.ids = {};
+                    } else {
+                        window.parashutter.firstSearch.vertical.results = images;
+                        window.parashutter.firstSearch.vertical.ids = {};
+                    }
+                } else {
+                    callback(images);
+                }
+            }
         );
     };
 
@@ -67,6 +121,33 @@ goog.provide('parashutter.gallery');
         return ss.colors;
     };
 
+    window['parashutter']['setSelectedColors'] = function(eid, colors) {
+        var ss = window.parashutter._session[eid];
+        if (!ss) {
+            window.parashutter._session[eid] = {};
+        }
+        window.parashutter._session[eid]['colors'] = colors;
+    };
+
+    window['parashutter']['getSelectedVariations'] = function(eid) {
+        var varCt = window.parashutter._session[eid];
+        if (!varCt || !varCt.variations || varCt.variations.length !== 3) {
+            return [0.5, 0.5, 0.5];
+        }
+        return varCt.variations;
+    };
+
+    window['parashutter']['setSelectedVariations'] = function(eid, variations) {
+        if (variations.length !== 3) {
+            return;
+        }
+        var varCt = window.parashutter._session[eid];
+        if (!varCt) {
+            window.parashutter._session[eid] = {};
+        }
+        window.parashutter._session[eid]['variations'] = variations;
+    };
+
     window['parashutter']['getSelectedKeywords'] = function(eid) {
         var kws = window.parashutter._session[eid];
         if (!kws || !kws.keywords) {
@@ -76,15 +157,20 @@ goog.provide('parashutter.gallery');
         return kws.keywords;
     };
 
+    window['parashutter']['setSelectedKeywords'] = function(eid, keywords) {
+        var kws = window.parashutter._session[eid];
+        if (!kws) {
+            window.parashutter._session[eid] = {};
+        }
+        return window.parashutter._session[eid]['keywords'] = keywords;
+    }
+
     window['parashutter']['getSelectedImage'] = function(eid) {
         var img = window.parashutter._session[eid];
         if (!img) {
             return null;
         }
-        return img.image_id;
-    };
-
-    window['parashutter']['setSelectedImage'] = function(eid, image) {
+        return img.photo_id;
     };
 
     window['parashutter']['openGallery'] = function(eid, openAnimation, loadedAnimation) {

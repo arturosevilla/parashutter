@@ -42,11 +42,16 @@ goog.provide('parashutter.api');
                     continue;
                 }
 
-                images.push({
+                element.searchCache = {
                     element: element,
                     width: width,
-                    height: height
-                });
+                    height: height,
+                    resultsQueue: [],
+                    index: 0,
+                    canSearch: true
+                };
+
+                images.push(element.searchCache);
             }
         }
         return images;
@@ -106,7 +111,7 @@ goog.provide('parashutter.api');
         '</span>' +
         '<input type="text" class="para-input" />' +
         '</div>' +
-        '<div class="para-arrow_container"><div class="para-arrow_down"></div></a>' +
+        '<div class="para-arrow_container"><div class="para-arrow_down"></div>' +
         '</div>' +
         '</div>' +
         '</div>';
@@ -126,6 +131,39 @@ goog.provide('parashutter.api');
         }
         img.element.className = 'para-image-replacement ' + img.element.className;
         img.element.innerHTML = menuHTML;
+
+        function getHSLVariations(element) {
+            var h = window.jQuery('.slider-hue', element).slider('value');
+            var s = window.jQuery('.slider-saturation', element). val().slider('value');
+            var l = window.jQuery('.slider-lightness', element).val().slider('value');
+            return [h, s, l];
+        }
+
+        img.element.doSearch = function() {
+            var width  = this.width,
+                height = this.height;
+            var colors = []
+            var hslVariations = getHSLVariations(this);
+            var colorsTexts = window.jQuery('.para-pallete-item para-on', img.element).each(function() {
+                var displacedColor = window.parashutter.displaceHSL($(this).text());
+                colors.push(displacedColor);
+                window.jQuery('.para-pallete-item-color', parent).css(
+                    'background-color',
+                    displacedColor
+                );
+            });
+            var keywords = window.jQuery('.para-input', img.element).val();
+
+            window.parashutter.searchForImages(width, height, colors, keywords, function(images) {
+                if (images.length === 0) {
+                    img.canSearch = false;
+                }
+                for (var x in images) {
+                    img.resultsQueue.push(images[x]);
+                }
+            });
+        };
+
         var colors = window.parashutter.getSelectedColors(img.element.id);
         var keywords = window.parashutter.getSelectedKeywords(img.element.id);
         window.console.debug('selected keywords: ' + keywords);
@@ -149,6 +187,16 @@ goog.provide('parashutter.api');
         });
 
         // setup sliders
+        var variations = window.parashutter.getSelectedVariations(img.element.id);
+        window.jQuery('.slider-hue', img.element).slider(
+            'option', 'value', variations[0]
+        );
+        window.jQuery('.slider-saturation', img.element).slider(
+            'option', 'value', variations[1]
+        );
+        window.jQuery('.slider-lightness', img.element).slider(
+            'option', 'value', variations[2]
+        );
     }
 
     function installEventHandlers() {
@@ -196,10 +244,59 @@ goog.provide('parashutter.api');
                 }
             });
 
-            window.console.log(window.jQuery('.slider-hue'));
-            window.jQuery('.slider-hue').slider();
-            window.jQuery('.slider-saturation').slider();
-            window.jQuery('.slider-lightness').slider();
+            function nullHandler(e) {
+                e.preventDefault();
+            }
+
+            function nextHandler(e) {
+                e.preventDefault();
+                var searchCache = this.parentNode.parentNode.searchCache;
+                var queue = searchQueue.resultsQueue;
+                if (searchCache.index === queue.length - 2 && searchCache.canSearch) {
+                    searchCache.element.doSearch();
+                } else if (searchCache.index === queue.length - 1) {
+                    // disable until search finishes or someone presses prev
+                    window.jQuery(this).unbind('click').click(nullHandler);
+                } else if (searchCache.index === 0 && queue.length > 1) {
+                    window.jQuery('.para-prev', searchCache.element)
+                        .unbind('click')
+                        .click(prevHandler);
+                }
+                searchCache.index++;
+                window.parashutter.loadImage(searchCache.element, queue[searchCache.index], true);
+            }
+
+            function prevHandler(e) {
+                e.preventDefault();
+                var searchCache = this.parentNode.parentNode.searchCache;
+                var queue = searchQueue.resultsQueue;
+                if (searchCache.index === 1) {
+                    window.jQuery(this).unbind('click').click(nullHandler);
+                } else if (searchCache.index === queue.length - 1 && queue.length > 1) {
+                    window.jQuery('.para-next', searchCache.element)
+                        .unbind('click')
+                        .click(nextHandler);
+                }
+                searchCache.index--;
+                window.parashutter.loadImage(searchCache.element, queue[searchCache.index], true);
+            }
+
+            function searchHandler(e) {
+                this.parentNode.parentNode.doSearch();
+            }
+
+            window.jQuery('.para-next').click(nextHandler);
+            window.jQuery('.para-prev').click(prevHandler);
+            window.jQuery('.slider-hue').slider(
+                {min: -1, max: 1}
+            ).change(searchHandler);
+            window.jQuery('.slider-saturation').slider(
+                {min: -1, max: 1}
+            ).change(searchHandler);
+            window.jQuery('.slider-lightness').slider(
+                {min: -1, max: 1}
+            ).change(searchHandler);
+            window.jQuery('.para-input').change(searchHandler);
         });
     }
 
@@ -214,10 +311,10 @@ goog.provide('parashutter.api');
                 window.parashutter.analyzedColors.push([color, true]);
             });
             var images = findImages();
+            installEventHandlers();
             for (var i = 0; i < images.length; i++) {
                 installImageSelector(images[i], color);
             }
-            installEventHandlers();
         };
     }
     

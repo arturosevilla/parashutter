@@ -1,0 +1,95 @@
+<html>
+<head>	
+</head>
+<body>
+	<link rel="stylesheet" type="text/css" href="compass-project/stylesheets/parashutter.css">
+	<link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
+	<!-- Sliders -->
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+ 	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+	<script>
+		$(function() {
+			$( "#slider" ).slider();
+			$( "#slider2" ).slider();
+			$( "#slider3" ).slider();
+		});
+  	</script>
+
+  	<!-- Content -->
+	<div class="para-image-replacement">
+		<div class="para-container">
+			<div class="para-bar">
+				<a class="para-first para-prev"></a><a class="para-hate"></a><a class="para-gallery"></a><a class="para-email"></a><a class="para-buy"></a><a class="para-love"></a><a class="para-last para-next"></a>
+				<div class="para-settings">
+					<div class="para-settings_panel">
+						<div class="para-my_palette">
+							<span class="para-title">
+								My Palette
+							</span>
+							<div class="para-pallete-item para-on para-palette-current">
+								<span class="para-pallete-item-color">
+								</span>
+								<span class="para-pallete-item-text">#FFDDE9</span>
+							</div>
+							<div class="para-pallete-item para-on">
+								<span class="para-pallete-item-color">
+								</span>
+								<span class="para-pallete-item-text">#FFDDE9</span>
+							</div>
+							<div class="para-pallete-item para-off">
+								<span class="para-pallete-item-color">
+								</span>
+								<span class="para-pallete-item-text">#FFDDE9</span>
+							</div>
+							<div class="para-pallete-item para-off">
+								<span class="para-pallete-item-color">
+								</span>
+								<span class="para-pallete-item-text">#FFDDE9</span>
+							</div>							
+						</div><div class="para-controls">
+							<span class="para-title">
+								Controlls
+							</span>
+							<span class="para-subtitle">
+								hue
+							</span>
+							<div id="slider"></div>
+							<span class="para-subtitle">
+								saturation
+							</span>
+							<div id="slider2"></div>
+							<span class="para-subtitle">
+								brightness
+							</span>
+							<div id="slider3"></div>
+							<span class="para-subtitle">
+								keywords <span>separated with a comma</span>
+							</span>
+							<input type="text" class="para-input" />
+						</div>
+						<div class="para-arrow_container"><div class="para-arrow_down"></div></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="para-fancybox">
+		<div class="para-fancybox-container">
+			<div id="fanybox-container-close"></div>
+			<img class="thumb" src="http://www.placehold.it/200x200" />
+			<img class="thumb" src="../images/image1" />
+			<img class="thumb" src="../images/image1" />
+			<img class="thumb" src="../images/image1" />
+			<img class="thumb" src="../images/image1" />
+			<img class="thumb" src="../images/image1" />
+			<img class="thumb" src="../images/image1" />
+			<img class="thumb" src="../images/image1" />
+			<img class="thumb" src="../images/image1" />
+			<img class="thumb" src="../images/image1" />
+			<img class="thumb" src="../images/image1" />
+			<img class="thumb" src="../images/image1" />
+		</div>
+	</div>
+</body>
+</html>

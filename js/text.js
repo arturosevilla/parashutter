@@ -601,7 +601,13 @@ goog.provide('parashutter.text');
             }
 
             if (newWords !== null && newWords.length > 0) {
-                corpus.push.apply(corpus, newWords);
+                for (var i = 0; i < newWords.length; i++) {
+                    var word = newWords[i].trim();
+                    if (word === '') {
+                        continue;
+                    }
+                    corpus.push(word);
+                }
             }
         }
 
@@ -621,6 +627,9 @@ goog.provide('parashutter.text');
                     /\W/,
                     ' '
                 ).split(' ').forEach(function(keyword) {
+                    if (keyword.trim() === '') {
+                        return;
+                    }
                     for (var i = 0; i < KEYWORD_BIAS; i++) {
                         corpus.push(keyword.trim());
                     }

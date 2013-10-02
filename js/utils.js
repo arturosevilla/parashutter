@@ -65,6 +65,15 @@ window['parashutter']['utils']['ajax'] = function(method, url, data, callback) {
 
 };
 
+window['parashutter']['utils']['isEmptyObject'] =  function(obj) {
+    for(var prop in obj) {
+        if(obj.hasOwnProperty(prop))
+            return false;
+    }
+
+    return true;
+}
+
 window['parashutter']['utils']['getCssSize'] = function(element, property) {
     var cssValue = element.style[property];
     if (cssValue === undefined || cssValue === '') {

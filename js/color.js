@@ -84,10 +84,17 @@ goog.provide('parashutter.color');
         }
     }
 
-    function getRGB(rgb) {
+    function getRGBNormalized(rgb) {
         var r = Math.round(rgb[0] * 255, 0);
         var g = Math.round(rgb[1] * 255, 0);
         var b = Math.round(rgb[2] * 255, 0);
+        return getRGB([r, g, b]);
+    }
+
+    function getRGB(rgb) {
+        var r = rgb[0],
+            g = rgb[1],
+            b = rgb[2];
         function _padZeros(number) {
             var padding = '00' + number;
             return padding.substr(padding.length - 2);
@@ -97,6 +104,7 @@ goog.provide('parashutter.color');
             _padZeros(g.toString(16)) +
             _padZeros(b.toString(16))
         ).toUpperCase();
+
     }
 
     function _parseColor(color, percentage) {
@@ -181,7 +189,7 @@ goog.provide('parashutter.color');
         hsl[2] += variations[2];
         hsl[2] = Math.min(Math.max(hsl[2], 0), 1);
 
-        return getRGB(hsl2rgb(hsl));
+        return getRGBNormalized(hsl2rgb(hsl));
     }
 
     if (!window['parashutter']) {
@@ -190,6 +198,7 @@ goog.provide('parashutter.color');
 
     window['parashutter']['color'] = {};
     window['parashutter']['displaceHSL'] = displaceHSL;
+    window['parashutter']['getRGB'] = getRGB;
 
 })(window);
 

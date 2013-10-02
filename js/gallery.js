@@ -16,7 +16,7 @@ goog.provide('parashutter.gallery');
         });
     }
 
-    window['parashutter']['initGallery'] = function() {
+    window['parashutter']['initGallery'] = function(session) {
         var fancyBox = document.createElement('div');
         fancyBox.setAttribute('id', 'para-fancybox');
         
@@ -33,19 +33,68 @@ goog.provide('parashutter.gallery');
         fancyBoxContainer.appendChild(fancyBoxContent);
         fancyBox.appendChild(fancyBoxContainer);
 
+        var imgLoading = document.createElement('img');
+        imgLoading.setAttribute('src', 'compass-project/images/loading.gif');
+        imgLoading.setAttribute('class', 'para-loading');
+        fancyBox.appendChild(imgLoading);
+
         window.document.body.appendChild(fancyBox);
+        window.parashutter._session = session;
+        if (window.parashutter.utils.isEmptyObject(session)) {
+            window.parashutter.firtSearch = true;
+        }
         initEventHandlers();
     };
 
+    window['parashutter']['clearFirstSearchFlag'] = function() {
+        window.parashutter.firstSearch = false;
+    };
+
+    window['parashutter']['searchForImages'] = function(width, height, color, keywords, callback) {
+        window.parashutter.utils.ajax(
+            'get',
+            '/' + width + 'x' + height + '/' + color + '/' + keywords,
+            null,
+            callback
+        );
+    };
+
+    window['parashutter']['getSelectedColors'] = function(eid) {
+        var ss = window.parashutter._session[eid];
+        if (!ss || !ss.colors) {
+            return window.parashutter.analyzedColors;
+        }
+        return ss.colors;
+    };
+
+    window['parashutter']['getSelectedKeywords'] = function(eid) {
+        var kws = window.parashutter._session[eid];
+        if (!kws || !kws.keywords) {
+            return window.parashutter.keywords;
+        }
+
+        return kws.keywords;
+    };
+
     window['parashutter']['getSelectedImage'] = function(eid) {
-        return window.parashutter._images[eid] || null;
-    }
+        var img = window.parashutter._session[eid];
+        if (!img) {
+            return null;
+        }
+        return img.image_id;
+    };
+
+    window['parashutter']['setSelectedImage'] = function(eid, image) {
+    };
 
     window['parashutter']['openGallery'] = function(eid, openAnimation, loadedAnimation) {
         if (openAnimation) {
             openAnimation();
         }
         window.parashutter.getLikedImages(eid, function(images) {
+
+            images.forEach(function(image) {
+            });
 
             loadedAnimation();
         });

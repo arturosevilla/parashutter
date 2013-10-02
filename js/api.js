@@ -11,7 +11,6 @@ goog.provide('parashutter.api');
 (function(window, undefined) {
     var document = window.document;
     var console = window.console;
-    var $ = null;
 
     function findImages() {
         var elements = document.getElementsByClassName('parashutter-img');
@@ -120,66 +119,100 @@ goog.provide('parashutter.api');
                 'style',
                 'width: ' + img.width + 'px; height: ' + img.height + 'px;'
             );
+            var idElement = img.element.getAttribute('id');
             img.element.parentNode.replaceChild(imgBlock, img.element);
+            imgBlock.setAttribute('id', idElement);
             img.element = imgBlock;
         }
         img.element.className = 'para-image-replacement ' + img.element.className;
         img.element.innerHTML = menuHTML;
+        var colors = window.parashutter.getSelectedColors(img.element.id);
+        var keywords = window.parashutter.getSelectedKeywords(img.element.id);
+        window.console.debug('selected keywords: ' + keywords);
+        window.jQuery('.para-input', img.element).val(keywords);
+        window.jQuery('.para-pallete-item-text', img.element).each(function(i) {
+            var rgbText = '#' + window.parashutter.getRGB(colors[i][0]);
+            window.jQuery(this).text(rgbText);
+            var parent = window.jQuery(this).parent();
+
+            window.jQuery('.para-pallete-item-color', parent).css(
+                'background-color',
+                rgbText
+            );
+
+            parent.removeClass('para-on').removeClass('para-off');
+            if (colors[i][1]) {
+                parent.addClass('para-on');
+            } else {
+                parent.addClass('para-off');
+            }
+        });
+
+        // setup sliders
     }
 
     function installEventHandlers() {
-        $('.para-gallery').click(function() {
-            var baseId = this.parentNode.parentNode.getAttribute('id');
-            window.parashutter.openGallery(
-                baseId,
-                function() {
-                    $('#para-fancybox').css("height", "100%");
-                    $('#para-fancybox').animate({
-                        opacity: 1
-                    }, 400);
-                },
-                function() {
-                    /* remove gif animation */
+        window.jQuery(function() {
+            window.jQuery('.para-gallery').click(function() {
+                var baseId = this.parentNode.parentNode.getAttribute('id');
+                window.parashutter.openGallery(
+                    baseId,
+                    function() {
+                        window.jQuery('.para-loading').removeClass('nodisplay');
+                        window.jQuery('#para-fancybox').css("height", "100%");
+                        window.jQuery('#para-fancybox').animate({
+                            opacity: 1
+                        }, 400);
+                    },
+                    function() {
+                        /* remove gif animation */
+                        window.jQuery('.para-loading').addClass('nodisplay');
+                    }
+                );
+            });
+
+            window.jQuery(".para-hate, .para-love").click(function(e) {
+                e.preventDefault();
+                var baseId = this.parentNode.parentNode.getAttribute('id');
+                var image = window.parashutter.getSelectedImage(baseId);
+                if (image === null) {
+                    return;
                 }
-            );
-        });
+                if(window.jQuery(this).attr('class').indexOf('para-love') !== -1 ){
+                    window.parashutter.like(baseId, image.id);  
+                    window.jQuery(this).removeClass('para-love').addClass('para-hate')  
+                } else {
+                    window.parashutter.unlike(baseId, image.id); 
+                    window.jQuery(this).removeClass('para-hate').addClass('para-love') 
+                }
+            });
 
-        $(".para-hate, .para-love").click(function(e) {
-            e.preventDefault();
-            var baseId = this.parentNode.parentNode.getAttribute('id');
-            var imageId = window.parashutter.getSelectedImage(baseId);
-            if (imageId === null) {
-                return;
-            }
-            if($(this).attr('class').indexOf('para-love') !== -1 ){
-                window.parashutter.like(baseId, imageId);  
-                $(this).removeClass('para-love').addClass('para-hate')  
-            } else {
-                window.parashutter.unlike(baseId, imageId); 
-                $(this).removeClass('para-hate').addClass('para-love') 
-            }
-        });
+            window.jQuery('.para-on, .para-off').click(function(e) {
+                e.preventDefault();
+                if( window.jQuery(this).attr('class').indexOf('para-on') !== -1 ){ 
+                    window.jQuery(this).removeClass('para-on').addClass('para-off')  
+                } else { 
+                    window.jQuery(this).removeClass('para-off').addClass('para-on') 
+                }
+            });
 
-        $('.para-on, .para-off').click(function(e) {
-            e.preventDefault();
-            if( $(this).attr('class').indexOf('para-on') !== -1 ){ 
-                $(this).removeClass('para-on').addClass('para-off')  
-            } else { 
-                $(this).removeClass('para-off').addClass('para-on') 
-            }
+            window.console.log(window.jQuery('.slider-hue'));
+            window.jQuery('.slider-hue').slider();
+            window.jQuery('.slider-saturation').slider();
+            window.jQuery('.slider-lightness').slider();
         });
-
-        $('.slider-hue').slider();
-        $('.slider-saturation').slider();
-        $('.slider-lightness').slider();
     }
 
-    function getAnalyzer(color, quantize, getKeywords, sessionData) {
+    function getAnalyzer(color, quantize, getKeywords) {
         window.parashutter.keywords = getKeywords();
         return function(canvas) {
             var topColors = quantize.getColors(canvas);
             window.console.debug('Colors:');
             window.console.debug(topColors);
+            window.parashutter.analyzedColors = [];
+            topColors.forEach(function(color) {
+                window.parashutter.analyzedColors.push([color, true]);
+            });
             var images = findImages();
             for (var i = 0; i < images.length; i++) {
                 installImageSelector(images[i], color);
@@ -223,30 +256,38 @@ goog.provide('parashutter.api');
     }
 
     function loadJQuery(head) {
-        var cssUINode = document.createElement('link');
-        cssUINode.setAttribute('rel', 'stylesheet');
-        cssUINode.setAttribute('type', 'text/css');
-        cssUINode.setAttribute(
-            'href',
-            'http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css'
-        );
-        head.appendChild(cssUINode);
+        var withJQuery = !!window.jQuery;
+        var withJQueryUI = !!window.jQuery.fn.slider;
+        if (!withJQueryUI) {
+            var cssUINode = document.createElement('link');
+            cssUINode.setAttribute('rel', 'stylesheet');
+            cssUINode.setAttribute('type', 'text/css');
+            cssUINode.setAttribute(
+                'href',
+                'http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css'
+            );
+            head.appendChild(cssUINode);
+        }
 
-        var jqueryNode = document.createElement('script');
-        jqueryNode.setAttribute(
-            'src',
-            'http://code.jquery.com/jquery-1.9.1.js'
-        );
-        jqueryNode.setAttribute('type', 'text/javascript');
-        head.appendChild(jqueryNode);
-        var jqueryUINode = document.createElement('script');
-        jqueryUINode.setAttribute(
-            'src',
-            'http://code.jquery.com/ui/1.10.3/jquery-ui.js'
-        );
-        jqueryUINode.setAttribute('type', 'text/javascript');
-        head.appendChild(jqueryUINode);
-        $ = window.jQuery;
+        if (!withJQuery) {
+            var jqueryNode = document.createElement('script');
+            jqueryNode.setAttribute(
+                'src',
+                'http://code.jquery.com/jquery-1.9.1.js'
+            );
+            jqueryNode.setAttribute('type', 'text/javascript');
+            head.appendChild(jqueryNode);
+        }
+
+        if (!withJQueryUI) {
+            var jqueryUINode = document.createElement('script');
+            jqueryUINode.setAttribute(
+                'src',
+                'http://code.jquery.com/ui/1.10.3/jquery-ui.js'
+            );
+            jqueryUINode.setAttribute('type', 'text/javascript');
+            head.appendChild(jqueryUINode);
+        }
     }
 
     function loadRequiredFiles() {
@@ -274,19 +315,18 @@ goog.provide('parashutter.api');
              return;
          }
 
-         parashutter.initGallery();
 
          var html2canvas = window.html2canvas || parashutter.html2canvas;
 
          var session = getSession(function(sessionId, storedSession) {
              // initialize our session data
              parashutter.session = sessionId;
+             parashutter.initGallery(storedSession);
              html2canvas(document.body, {
                  onrendered: getAnalyzer(
                     parashutter.color,
                     parashutter.quantize,
-                    parashutter.getKeywords,
-                    storedSession
+                    parashutter.getKeywords
                 )
              });
         });

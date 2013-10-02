@@ -1,7 +1,7 @@
 
-$(window).load(function(){
-	scrollster();
-	goto_top();
+$(function(){
+    scrollster();
+    goto_top();
     home_floater();
 });
 

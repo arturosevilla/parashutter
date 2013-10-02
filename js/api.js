@@ -13,7 +13,8 @@ goog.provide('parashutter.api');
         return document.getElementsByClassName('parashutter-img');
     }
 
-    function installImageSelector(img) {
+    function installImageSelector(img, color) {
+        
     }
 
     function getAnalyzer(color, quantize, getKeywords) {

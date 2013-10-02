@@ -1,30 +1,21 @@
-var DEBUG = -1,
-    INFO = 0;
-
 var express = require('express'),
-    log = require('custom-logger').config({
-        format: '%timestamp% %event%:%padding% %message%',
-        level: DEBUG // INFO
-    });
-
-log.new({
-    debug: { color: 'cyan', level: DEBUG,  event: 'debug' }
-});
+    log     = require('./log.js'),
+    search  = require('./search.js');
 
 var server = express();
-
-var shutter_USERNAME = 'mintitmediahack';
-var shutter_KEY = '817307111f1911a022d3f53f2e7bc78ceda0259b';
-var shutter_DOMAIN = 'http://api.shutterstock.com';
-
-function shutterRequest(request, query, callback) {
-}
 
 /* our main handler */
 server.use(express.static(__dirname + '/public'));
 server.use('/js', express.static(__dirname + '/js'));
 server.use('/css', express.static(__dirname + '/css'));
 server.use(express.logger()); 
+server.get('/image/:id', function(request, response) {
+    search.shutterImageInfo(request.params.id, function(data) {
+        response.send(data);
+        response.end();
+    });
+});
+
 server.get(
     /^\/(\d+)x(\d+)\/(any|[0-9A-Fa-f]{6})\/((\S+,)*\S+)?$/,
     function(request, response) {
@@ -38,8 +29,20 @@ server.get(
                   ', color ' + color + ', keywords = ' +
                   (keywords === undefined ? '(no keywords)' : keywords));
 
-        response.send('test');
-
+        query = {};
+        if (color !== 'any') {
+            query.color = color;
+        }
+        if (keywords !== undefined && keywords.length > 0) {
+            query.keywords = keywords;
+        }
+        search.shutterRequest(query, function(data) {
+            response.set({
+                'Content-Type': 'application/json'
+            });
+            response.send(data);
+            response.end();
+        });
     }
 );
 

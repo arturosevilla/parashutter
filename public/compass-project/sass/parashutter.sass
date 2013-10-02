@@ -1,0 +1,137 @@
+@import "compass/css3/box-shadow"
+@import "compass/css3/text-shadow"
+@import "compass/css3/border-radius"
+@import "compass/css3/opacity"
+.para-image-replacement
+	background: url('../images/mirror.jpg') no-repeat 0 0
+	background-size: cover
+	color: #043b5e
+	position: relative
+	width: 800px
+	height: 400px
+	font-family: 'Oxygen', sans-serif
+	.para-bar
+		position: absolute
+		text-align: right
+		right: 10px
+		bottom: 10px
+			
+		> a, .para-settings
+			background: #FFF url('../images/parabar_icons.png') no-repeat 0 15px
+			@include box-shadow(0 0 20px rgba(0, 0, 0, .2))
+			display: inline-block
+			background-image
+			border-right: #CCC solid 1px
+			border-left: #C0C0C0 solid 1px
+			cursor: pointer
+			padding: 15px
+			width: 20px
+			height: 20px
+			&:hover
+				@include box-shadow(inset 0 0 20px rgba(0, 0, 0, .2))
+		.para-first
+			@include border-radius(8px 0 0 8px)
+			border-left: none
+		.para-last
+			@include border-radius(0 8px 8px 0)
+			border-right: none
+		.para-prev
+			background-position: -10px 15px
+		.para-hate
+			background-position: -57px 15px
+		.para-gallery
+			background-position: -104px 15px
+		.para-email
+			background-position: -152px 15px
+		.para-buy
+			background-position: -351px 15px
+		.para-love
+			background-position: -205px 15px
+		.para-next
+			background-position: -249px 15px
+		.para-settings
+			@include border-radius(8px)
+			background-position: -290px 15px
+			margin-left: 10px
+			.para-settings_panel
+				display: none
+				position: absolute
+				right: 0
+				text-align: left
+				bottom: 63px
+				.para-my_palette
+					@include border-radius(8px 0 0 8px)
+					background: #FFF
+					padding: 15px
+					display: inline-block
+					vertical-align: top
+					width: 98px
+					height: 235px
+				.para-controls
+					@include border-radius(0 8px 8px 0)
+					background: #EFEEED
+					padding: 15px 25px
+					display: inline-block
+					@include box-shadow(inset 10px 0 40px rgba(218, 218, 218, 1))
+					vertical-align: top
+					width: 250px
+					height: 235px
+
+			&:hover
+				.para-settings_panel
+					display: block
+.para-arrow_container
+	position: absolute
+	right: 10px
+	bottom: -10px
+	padding: 0 8px 0 20px
+	.para-arrow_down 
+		width: 0
+		height: 0
+		border-left: 10px solid transparent
+		border-right: 10px solid transparent
+		border-top: 10px solid #e3e3e3
+.para-pallete-item
+	padding: 5px 15px
+	margin: 10px -15px
+	.para-pallete-item-color
+		background: #FF0000 url('../images/para-on-off.png') no-repeat 
+		@include border-radius(4px)
+		display: inline-block
+		border: #043b5e solid 1px
+		width: 22px
+		height: 22px
+		vertical-align: middle
+	.para-pallete-item-text
+		display: inline-block
+		vertical-align: middle
+.para-on
+	.para-pallete-item-color
+		background-position: center 7px
+.para-off
+	@include opacity(0.5)
+	.para-pallete-item-color
+		background-position: center -30px
+.para-palette-current
+	background-color: #d9d9d9
+.para-title
+	display: block
+	color: #888
+	font-size: 18px
+	margin-bottom: 20px
+.para-subtitle
+	display: block
+	margin: 10px 0 5px
+	font-size: 12px
+	text-transform: uppercase
+	span
+		text-transform: none
+		color: #999
+.para-input
+	width: 100%
+	@include border-radius(4px)
+	padding: 5px
+	border: #999 solid 1px
+
+
+

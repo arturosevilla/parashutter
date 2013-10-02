@@ -1,6 +1,7 @@
 @import "compass/css3/box-shadow"
 @import "compass/css3/text-shadow"
 @import "compass/css3/border-radius"
+@import "compass/css3/images"
 
 body
 	font-family: 'Oxygen', sans-serif
@@ -16,7 +17,7 @@ a
 	.carousel3
 		background: url('../images/mirror.jpg') no-repeat 0 0
 	.carousel4
-		background: url('../images/technogerman.jpg') no-repeat 0 0
+		background: url('../images/hallway.jpg') no-repeat 0 0
 	.item
 		height: 450px
 		background-size: cover
@@ -36,13 +37,22 @@ a
 	margin: 41px 0 0 0
 	padding: 0
 	#nav_what
-		background-color: #18a9c3
+		@include background-image(radial-gradient(#35d3ef, #18a9c3 60%, #0a869c))
+		@include box-shadow(inset 0 20px 60px #046171)
 	#nav_how
+		@include background-image(radial-gradient(#50af2f, #1d8118 60%, #195404))
+		@include box-shadow(inset 0 20px 60px #0f3502)
 		background-color: #c3b518
-	#nav_why
-		background-color: #dc460b
 	#nav_contactus
-		background-color: #35c10a
+		@include background-image(radial-gradient(#222, #1d1d1d 60%, #111))
+		@include box-shadow(inset 0 20px 60px #000)
+		color: #FFF
+.big_logo
+	display: block
+	margin: 40px auto
+.navbar
+	.brand
+		padding: 5px 20px
 .goto_top
 	background: #FFF
 	cursor: pointer
@@ -60,4 +70,45 @@ a
 		border-right: 10px solid transparent
 		border-bottom: 10px solid black
 .content_block
-	padding: 40px 0
+	padding: 80px 0
+	h1
+		margin-bottom: 40px
+	p, li
+		font-size: 18px
+		line-height: 25px
+		margin-bottom: 30px
+.white
+	color: #FFF
+.yellow
+	color: #fcec35
+.brown
+	color: #fcec35
+.code-block
+	background: #333
+	color: #FFF 
+	font-size: 16px
+	font-family: "Lucida Console", Monaco, monospace
+	display: block
+	padding: 10px 20px
+	margin: 10px 0
+	@include border-radius(8px)
+	@include box-shadow(inset 1px 1px 5px rgba(0, 0, 0, 1))
+.two_col
+	span
+		display: inline-block
+		font-size: 18px
+		line-height: 25px
+		margin-bottom: 30px
+		vertical-align: top
+	img
+		display: inline-block
+		vertical-align: top
+		margin: 5px 15px 10px 0
+.w200
+	width: 200px
+.w180
+	width: 180px
+	
+
+
+

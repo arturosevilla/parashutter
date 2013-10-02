@@ -1,3 +1,4 @@
+goog.require('parashutter.utils');
 goog.provide('parashutter.text');
 
 (function(window, undefined) {
@@ -580,7 +581,8 @@ goog.provide('parashutter.text');
         if (element.hasChildNodes()) {
             var children = element.childNodes;
             var newWords = null;
-            children.forEach(function(child) {
+            for (var i = 0; i < children.length; i++) {
+                var child = children[i];
                 if (child.nodeName.toLowerCase() === 'img') {
                     var alt = child.getAttribute('alt') || '';
                     if (alt.length > 0) {
@@ -596,10 +598,42 @@ goog.provide('parashutter.text');
                     // element node
                     newWords = getCorpusFromElement(child);
                 }
-            });
+            }
 
             if (newWords !== null && newWords.length > 0) {
-                corpus.push.apply(corpus, newWords);
+                for (var i = 0; i < newWords.length; i++) {
+                    var word = newWords[i].trim();
+                    if (word === '') {
+                        continue;
+                    }
+                    corpus.push(word);
+                }
+            }
+        }
+
+        return corpus;
+    }
+
+    function getCorpusFromKeywords() {
+        var KEYWORD_BIAS = 10;
+        var metaTags = document.getElementsByTagName('meta');
+        var corpus = [];
+        for (var i = 0; i < metaTags.length; i++) {
+            var element = metaTags[i];
+            var name = element.getAttribute('name');
+            if (name === 'keywords' || name === 'description') {
+                var keywordsContent = element.getAttribute('content');
+                keywordsContent.replace(
+                    /\W/,
+                    ' '
+                ).split(' ').forEach(function(keyword) {
+                    if (keyword.trim() === '') {
+                        return;
+                    }
+                    for (var i = 0; i < KEYWORD_BIAS; i++) {
+                        corpus.push(keyword.trim());
+                    }
+                });
             }
         }
 
@@ -607,7 +641,11 @@ goog.provide('parashutter.text');
     }
 
     function getCorpusFromDocument() {
-        return getCorpusFromElement(window.document);
+        var corpus = getCorpusFromKeywords();
+        return corpus.push.apply(
+            corpus,
+            getCorpusFromElement(window.document)
+        );
     }
 
     if (!window['parashutter']) {
@@ -620,7 +658,7 @@ goog.provide('parashutter.text');
             topN = 5;
         }
         if (!getCorpus) {
-            getCorpus = getCorpusFromDocument;
+            getCorpus = getCorpusFromKeywords;
         }
         var allWords = getCorpus();
         
